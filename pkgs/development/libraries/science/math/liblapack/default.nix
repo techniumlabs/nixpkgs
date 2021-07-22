@@ -7,18 +7,17 @@
 }:
 let
   inherit (lib) optional;
-  version = "3.9.0";
 in
 
 stdenv.mkDerivation rec {
   pname = "liblapack";
-  inherit version;
+  version = "3.9.1";
 
   src = fetchFromGitHub {
     owner = "Reference-LAPACK";
     repo = "lapack";
     rev = "v${version}";
-    sha256 = "0sxnc97z67i7phdmcnq8f8lmxgw10wdwvr8ami0w3pb179cgrbpb";
+    sha256 = "sha256-B7eRaEY9vaLvuKkJ7d2KWanGE7OXh43O0UbXFheUWK8=";
   };
 
   nativeBuildInputs = [ gfortran cmake ];
@@ -57,7 +56,6 @@ stdenv.mkDerivation rec {
   '';
 
   meta = with lib; {
-    inherit version;
     description = "Linear Algebra PACKage";
     homepage = "http://www.netlib.org/lapack/";
     license = licenses.bsd3;

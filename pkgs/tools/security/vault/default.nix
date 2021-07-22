@@ -1,4 +1,8 @@
-{ lib, fetchFromGitHub, buildGoPackage, installShellFiles, nixosTests }:
+{ stdenv, lib, fetchFromGitHub, buildGoPackage, installShellFiles, nixosTests
+, makeWrapper
+, gawk
+, glibc
+}:
 
 buildGoPackage rec {
   pname = "vault";
@@ -15,13 +19,16 @@ buildGoPackage rec {
 
   subPackages = [ "." ];
 
-  nativeBuildInputs = [ installShellFiles ];
+  nativeBuildInputs = [ installShellFiles makeWrapper ];
 
   buildFlagsArray = [ "-tags=vault" "-ldflags=-s -w -X ${goPackagePath}/sdk/version.GitCommit=${src.rev}" ];
 
   postInstall = ''
     echo "complete -C $out/bin/vault vault" > vault.bash
     installShellCompletion vault.bash
+  '' + lib.optionalString stdenv.isLinux ''
+    wrapProgram $out/bin/vault \
+      --prefix PATH ${lib.makeBinPath [ gawk glibc ]}
   '';
 
   passthru.tests.vault = nixosTests.vault;

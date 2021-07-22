@@ -2,12 +2,13 @@
 , stdenv
 , buildPythonPackage
 , fetchFromGitHub
+, fetchpatch
 , substituteAll
 , gdb
 , flask
 , psutil
 , pytest-timeout
-, pytest_xdist
+, pytest-xdist
 , pytestCheckHook
 , requests
 , isPy27
@@ -48,6 +49,12 @@ buildPythonPackage rec {
     # To avoid this issue, debugpy should be installed using python.withPackages:
     # python.withPackages (ps: with ps; [ debugpy ])
     ./fix-test-pythonpath.patch
+
+    # Fix tests with flask>=2.0
+    (fetchpatch {
+      url = "https://github.com/microsoft/debugpy/commit/0a7f2cd67dda27ea4d38389b49a4e2a1899b834e.patch";
+      sha256 = "1g070fn07n7jj01jaf5s570zn70akf6klkamigs3ix11gh736rpn";
+    })
   ];
 
   # Remove pre-compiled "attach" libraries and recompile for host platform
@@ -68,7 +75,7 @@ buildPythonPackage rec {
     flask
     psutil
     pytest-timeout
-    pytest_xdist
+    pytest-xdist
     pytestCheckHook
     requests
   ] ++ lib.optionals (!isPy27) [

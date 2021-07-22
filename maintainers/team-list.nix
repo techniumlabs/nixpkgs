@@ -133,7 +133,6 @@ with lib.maintainers; {
 
   jitsi = {
     members = [
-      mmilata
       petabyteboy
       ryantm
       yuka
@@ -161,6 +160,7 @@ with lib.maintainers; {
       ekleog
       ralith
       mjlbach
+      dandellion
     ];
     scope = "Maintain the ecosystem around Matrix, a decentralized messenger.";
   };

@@ -12,11 +12,11 @@ let
 in
 buildPythonApplication rec {
   pname = "matrix-synapse";
-  version = "1.36.0";
+  version = "1.38.0";
 
   src = fetchPypi {
     inherit pname version;
-    sha256 = "sha256-OMbSd64mD2+6GVUxGL4lvQlKAiBuen0PjvyVdk/ePbI=";
+    sha256 = "sha256-k9/enFktixO4zvgBW3zw0COBakDP1PHVWAlbMi+FiWQ=";
   };
 
   patches = [
@@ -60,7 +60,7 @@ buildPythonApplication rec {
     typing-extensions
     unpaddedbase64
   ] ++ lib.optional enableSystemd systemd
-    ++ lib.optional enableRedis hiredis;
+    ++ lib.optionals enableRedis [ hiredis txredisapi ];
 
   checkInputs = [ mock parameterized openssl ];
 

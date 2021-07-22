@@ -6,13 +6,14 @@
 
 stdenv.mkDerivation rec {
   pname = "fcft";
-  version = "2.4.0";
+  version = "2.4.3";
 
   src = fetchzip {
     url = "https://codeberg.org/dnkl/fcft/archive/${version}.tar.gz";
-    sha256 = "0z1r0s5s3dr1g4f3ylxfcmy3xb0ax02rw9mg7z8hzh0gxazrpndx";
+    sha256 = "0hxvd6xbvgq1rk8851gswffmvh3fv41lyvz4fhwzln7m12759yw8";
   };
 
+  depsBuildBuild = [ pkg-config ];
   nativeBuildInputs = [ pkg-config meson ninja scdoc ];
   buildInputs = [ freetype fontconfig pixman tllist ]
     ++ lib.optional withHarfBuzz harfbuzz;
